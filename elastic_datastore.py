@@ -39,10 +39,10 @@ class ElasticSearchManager:
         self.bm25_retriever = ElasticsearchRetriever(self.document_store_es)
 
         self.pipeline = Pipeline()
-        self.pipeline.add_node(component=self.bm25_retriever, name="bm25Retriever", inputs=["Query"])
+        self.pipeline.add_node(component=self.bm25_retriever, name="bm25_Retriever", inputs=["Query"])
         self.pipeline.add_node(component=self.emb_retriever, name="emb_Retriever", inputs=["Query"])
         self.pipeline.add_node(component=JoinDocuments(join_mode="merge", weights=[0.5, 0.8]), name="JoinResults",
-                               inputs=["bm25Retriever", "emb_Retriever"])
+                               inputs=["bm25_Retriever", "emb_Retriever"])
 
     def split_response(self, dicts):
         docs = [self.preprocessor.process(d) for d in dicts if d['text']]
