@@ -5,7 +5,7 @@ from elastic_datastore import ElasticSearchManager
 from graph_manager.graphy_manager import GraphManager
 
 elastic_search_manager = ElasticSearchManager()
-graph_manager = GraphManager()
+# graph_manager = GraphManager()
 app = FastAPI()
 
 
