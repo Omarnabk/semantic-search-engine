@@ -22,12 +22,12 @@ async def query(q: str, cat: str, lang='en', top=50):
     )
     pgs = [x.meta for x in res['documents']]
 
-    if 'web'.lower() in cat.lower():
-        urls = [x.meta.get('url') for x in res['documents']]
-        g_obj = graph_manager.get_graph(lang)
-        g_res = {k: v for k, v in sorted({x: (g_obj.pr.get(x.lower(), 0.0001) * g_obj.ev.get(x.lower(), 0.0001) * urls.index(x)) / graph_manager.get_distance_to_root(g_obj.g, x.lower()) for x in urls}.items(),
-                                         key=lambda item: item[1],
-                                         reverse=True)}
+    # if 'web'.lower() in cat.lower():
+    #     urls = [x.meta.get('url') for x in res['documents']]
+    #     g_obj = graph_manager.get_graph(lang)
+    #     g_res = {k: v for k, v in sorted({x: (g_obj.pr.get(x.lower(), 0.0001) * g_obj.ev.get(x.lower(), 0.0001) * urls.index(x)) / graph_manager.get_distance_to_root(g_obj.g, x.lower()) for x in urls}.items(),
+    #                                      key=lambda item: item[1],
+    #                                      reverse=True)}
 
     return pgs
 
