@@ -1,3 +1,4 @@
+import uvicorn
 from fastapi import FastAPI
 
 from elastic_datastore import ElasticSearchManager
@@ -44,5 +45,6 @@ async def query(q: str, cat: str, lang='en', top=50):
 async def root():
     return {'Hello': 'This is a semantic search engine!'}
 
+
 if __name__ == "__main__":
-    uvicorn.run("main:app", host="0.0.0.0", port=8989, log_level="info")
+    uvicorn.run("main_searcher:app", host="0.0.0.0", port=8989, log_level="info")
