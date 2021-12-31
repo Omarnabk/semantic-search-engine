@@ -17,7 +17,8 @@ class ElasticSearchManager:
                                                             embedding_field='embedding',
                                                             search_fields='text',
                                                             name_field='title',
-                                                            embedding_dim=512
+                                                            embedding_dim=512,
+                                                            content_field='text'
                                                             )
 
         self.preprocessor = PreProcessor(
