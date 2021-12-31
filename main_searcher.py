@@ -14,13 +14,21 @@ async def query(q: str, cat: str, lang='en', top=50):
     res = elastic_search_manager.pipeline.run(
         query=q.lower(),
         params={
-            "emb_Retriever": {"top_k": top},
-            "bm25_Retriever": {'top_k': top},
+            "emb_Retriever": {"top_k": 1000},
+            "bm25_Retriever": {'top_k': 1000},
             'filters': filter_itu
         }
 
     )
-    pgs = [x.meta for x in res['documents']]
+    new_pgs = []
+    new_meta = []
+    for x in res['documents']:
+        u = x.meta.get('url', '')
+        if u not in new_pgs:
+            new_pgs.append(x.meta['url'])
+            new_meta.append(x.meta)
+    new_meta = sorted(new_meta, key=lambda d: d['created_at'], reverse=True)
+    return new_meta[:top]
 
     # if 'web'.lower() in cat.lower():
     #     urls = [x.meta.get('url') for x in res['documents']]
@@ -29,7 +37,7 @@ async def query(q: str, cat: str, lang='en', top=50):
     #                                      key=lambda item: item[1],
     #                                      reverse=True)}
 
-    return pgs
+    # return pgs
 
 
 @app.get("/")
