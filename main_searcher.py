@@ -43,3 +43,6 @@ async def query(q: str, cat: str, lang='en', top=50):
 @app.get("/")
 async def root():
     return {'Hello': 'This is a semantic search engine!'}
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0", port=8989, log_level="info")
