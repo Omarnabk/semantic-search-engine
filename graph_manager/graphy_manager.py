@@ -33,7 +33,6 @@ class GraphManager:
             'zh': 'zh',
             'fr': 'fr',
         }
-        # g_en, g_ar, g_zh, g_es, g_ru, g_fr
 
         if os.path.exists(graph_name['en']):
             g_en = pickle.load(open(graph_name['en'], 'rb'))

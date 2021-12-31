@@ -9,7 +9,7 @@ tmp_solr_dict = 'full_solr_index'
 es_items_path = 'mapping.txt'
 
 # frequency of crawling Solr index.
-sleep_time = 12 * 60 * 60  # 12 hours sleeping
+sleep_time = 1 * 60 * 60  # 1 hour sleeping
 
 elastic_instance_name = 'itu_se_new'
 
@@ -38,15 +38,15 @@ cat = {'ITU BaseTexts',
        'ITU-R Web Pages',
        'ITU-T Work Item'}
 
-langs = {'', '07', 'ar', 'en', 'es', 'fr', 'm', 'ru', 'sp', 'xx', 'zh'}
+languages = {'', '07', 'ar', 'en', 'es', 'fr', 'm', 'ru', 'sp', 'xx', 'zh'}
 
-graph_root = 'graphs_pkl'
+graph_root = 'data/graphs_pkl'
 os.makedirs(graph_root, exist_ok=True)
 graph_name = {
-    'en': os.path.join(f'{graph_root}/web_en_graph.pkl'),
-    'ar': os.path.join(f'{graph_root}/web_ar_graph.pkl'),
-    'es': os.path.join(f'{graph_root}/web_es_graph.pkl'),
-    'fr': os.path.join(f'{graph_root}/web_fr_graph.pkl'),
-    'zh': os.path.join(f'{graph_root}/web_zh_graph.pkl'),
-    'ru': os.path.join(f'{graph_root}/web_ru_graph.pkl')
+    'en': os.path.join(graph_root, 'web_en_graph.pkl'),
+    'ar': os.path.join(graph_root, 'web_ar_graph.pkl'),
+    'es': os.path.join(graph_root, 'web_es_graph.pkl'),
+    'fr': os.path.join(graph_root, 'web_fr_graph.pkl'),
+    'zh': os.path.join(graph_root, 'web_zh_graph.pkl'),
+    'ru': os.path.join(graph_root, 'web_ru_graph.pkl')
 }
