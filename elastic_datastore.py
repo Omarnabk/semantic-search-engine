@@ -1,7 +1,7 @@
+from haystack import Pipeline
 from haystack.document_store.elasticsearch import ElasticsearchDocumentStore
-from haystack.pipeline import Pipeline, JoinDocuments
+from haystack.nodes import ElasticsearchRetriever, JoinDocuments
 from haystack.preprocessor.preprocessor import PreProcessor
-from haystack.retriever import ElasticsearchRetriever
 from haystack.retriever.dense import EmbeddingRetriever
 
 from config import elastic_instance_name
