@@ -18,6 +18,28 @@ headers = {
                   '(KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 
 
+class WebGraph:
+    def __init__(self, g_lang):
+        if os.path.exists(graph_name[g_lang]):
+            self.g = pickle.load(open(graph_name[g_lang], 'rb'))
+        else:
+            self.g = nx.Graph(data=True)
+        self.pr = self.find_pr(self.g)
+        self.ev = self.find_ev(self.g)
+
+    @staticmethod
+    def find_pr(g):
+        pr = nx.pagerank(g, alpha=0.8, weight=g.edges(data=True))
+        pr = {g.nodes(data=True)[e].get('url'): v for e, v in pr.items()}
+        return pr
+
+    @staticmethod
+    def find_ev(g):
+        ev = nx.eigenvector_centrality_numpy(g, weight=g.edges(data=True))
+        ev = {g.nodes(data=True)[e].get('url'): v for e, v in ev.items()}
+        return ev
+
+
 class GraphManager:
     def __init__(self):
         self.lang_mapping = {
@@ -33,44 +55,13 @@ class GraphManager:
             'zh': 'zh',
             'fr': 'fr',
         }
-
-        if os.path.exists(graph_name['en']):
-            g_en = pickle.load(open(graph_name['en'], 'rb'))
-        else:
-            g_en = nx.Graph(data=True)
-
-        if os.path.exists(graph_name['es']):
-            g_es = pickle.load(open(graph_name['es'], 'rb'))
-        else:
-            g_es = nx.Graph(data=True)
-
-        if os.path.exists(graph_name['fr']):
-            g_fr = pickle.load(open(graph_name['fr'], 'rb'))
-        else:
-            g_fr = nx.Graph(data=True)
-
-        if os.path.exists(graph_name['ar']):
-            g_ar = pickle.load(open(graph_name['ar'], 'rb'))
-        else:
-            g_ar = nx.Graph(data=True)
-
-        if os.path.exists(graph_name['ru']):
-            g_ru = pickle.load(open(graph_name['ru'], 'rb'))
-        else:
-            g_ru = nx.Graph(data=True)
-
-        if os.path.exists(graph_name['zh']):
-            g_zh = pickle.load(open(graph_name['zh'], 'rb'))
-        else:
-            g_zh = nx.Graph(data=True)
-
         self.dic_g = {
-            'en': g_en,
-            'ar': g_ar,
-            'es': g_es,
-            'ru': g_ru,
-            'zh': g_zh,
-            'fr': g_fr,
+            'en': WebGraph('en'),
+            'ar': WebGraph('ar'),
+            'es': WebGraph('es'),
+            'ru': WebGraph('ru'),
+            'zh': WebGraph('zh'),
+            'fr': WebGraph('fr'),
         }
 
     @staticmethod
@@ -118,24 +109,15 @@ class GraphManager:
         except:
             return []
 
-    @staticmethod
-    def find_pr(g):
-        pr = nx.pagerank(g, alpha=0.8, weight=g.edges(data=True))
-        pr = {g.nodes(data=True)[e].get('url'): v for e, v in pr.items()}
-        return pr
-
-    @staticmethod
-    def find_ev(g):
-        ev = nx.eigenvector_centrality_numpy(g, weight=g.edges(data=True))
-        ev = {g.nodes(data=True)[e].get('url'): v for e, v in ev.items()}
-        return ev
-
     def get_graph(self, url_lang):
         return self.dic_g.get(url_lang, None)
 
     def append_item(self, src_url, url_lang):
 
-        g = self.get_graph(url_lang=url_lang)
+        g_obj = self.get_graph(url_lang=url_lang)
+        g = g_obj.g
+        if g is None:
+            return
         if not is_valid_url(src_url):
             return g
         src_h = hash_url(src_url)
@@ -164,16 +146,3 @@ class GraphManager:
                 g[src_h][des_h]['weight'] = 1
 
         pickle.dump(g, open(graph_name[url_lang], 'wb'))
-
-        return len(all_des)
-
-# if __name__ == "__main__":
-#     gm = GraphManager()
-#     data = load_json('itud_web1.json')
-#     for v in data.values():
-#         src_url = v[0]
-#         pg_type = v[1]
-#         lang = gm.lang_mapping.get(v[2], 'en')
-#         if is_valid_url(src_url):
-#             added_nodes = gm.append_item(url_lang=lang, src_url=src_url)
-#             print(src_url, added_nodes)

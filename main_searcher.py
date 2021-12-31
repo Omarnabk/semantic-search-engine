@@ -24,11 +24,10 @@ async def query(q: str, cat: str, lang='en', top=50):
     urls = [x.meta.get('url') for x in res['documents']]
 
     if 'web'.lower() in cat.lower():
-        g = graph_manager.get_graph(lang)
-        pr = graph_manager.find_pr(g)
-        ev = graph_manager.find_ev(g)
-        pgs = {k: v for k, v in sorted({x: (pr.get(x.lower(), 0.0001) * ev.get(x.lower(), 0.0001) * pgs[
-            x]) / graph_manager.get_distance_to_root(g, x.lower()) for x in urls}.items(), key=lambda item: item[1],
+        g_obj = graph_manager.get_graph(lang)
+        pgs = {k: v for k, v in sorted({x: (g_obj.pr.get(x.lower(), 0.0001) * g_obj.ev.get(x.lower(), 0.0001) * pgs[
+            x]) / graph_manager.get_distance_to_root(g_obj.g, x.lower()) for x in urls}.items(),
+                                       key=lambda item: item[1],
                                        reverse=True)}
 
     return pgs
