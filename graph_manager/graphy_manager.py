@@ -50,7 +50,7 @@ class GraphManager:
             g_fr = nx.Graph(data=True)
 
         if os.path.exists(graph_name['ar']):
-            g_ar = pickle.load(open(graph_name['ar '], 'rb'))
+            g_ar = pickle.load(open(graph_name['ar'], 'rb'))
         else:
             g_ar = nx.Graph(data=True)
 
