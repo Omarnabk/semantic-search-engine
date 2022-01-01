@@ -8,7 +8,7 @@ from crawler.crawler_manager import Crawler
 from crawler.crawler_utils import consider_sample, load_json
 from elastic_datastore import ElasticSearchManager
 from graph_manager.graph_utils import is_valid_url
-from graph_manager.graphy_manager import GraphManager
+from graph_manager.graph_manager import GraphManager
 
 if __name__ == "__main__":
     crawler = Crawler()
