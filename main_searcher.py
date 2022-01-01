@@ -15,8 +15,8 @@ async def query(q: str, cat: str, lang='en', top=50):
     res = elastic_search_manager.pipeline.run(
         query=q.lower(),
         params={
-            "emb_Retriever": {"top_k": 1000},
-            "bm25_Retriever": {'top_k': 1000},
+            "emb_Retriever": {"top_k": 250},
+            "bm25_Retriever": {'top_k': 250},
             'filters': filter_itu
         }
 
